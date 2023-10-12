@@ -1,0 +1,12 @@
+{
+  "name": "digishop",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server/index.js"
+  },
+  "author": "Majid Abbasi",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
