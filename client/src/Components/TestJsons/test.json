@@ -1,0 +1,272 @@
+{
+  "Category": [
+    {
+      "id": 0,
+      "productName": "روغن",
+      "imageSrc": "/Images/category1.jpeg",
+      "link": "/product"
+    },
+    {
+      "id": 1,
+      "productName": "زیورآلات",
+      "imageSrc": "/Images/category2.png",
+      "link": "/product"
+    },
+    {
+      "id": 2,
+      "productName": "گوشی موبایل",
+      "imageSrc": "/Images/phone.webp",
+      "link": "/product"
+    },
+    {
+      "id": 3,
+      "productName": "لپتاپ",
+      "imageSrc": "/Images/laptop.webp",
+      "link": "/product"
+    }
+  ],
+  "SliderImages": [
+    {
+      "id": 0,
+      "imageSrc": "/Images/carousel2.webp",
+      "alt": "TEST",
+      "link": "/main"
+    },
+    {
+      "id": 1,
+      "imageSrc": "/Images/carousel2.webp",
+      "alt": "TEST",
+      "link": "/main"
+    },
+    {
+      "id": 2,
+      "imageSrc": "/Images/carousel2.webp",
+      "alt": "TEST",
+      "link": "/main"
+    }
+  ],
+  "CategoryFull": [
+    {
+      "id": 0,
+      "title": "PC",
+      "path": "1",
+      "children": [
+        {
+          "id": 1,
+          "title": "Accessories",
+          "path": "1.1",
+          "children": [
+            { "id": 3, "title": "Headphone", "path": "1.1.1", "children": [] },
+            { "id": 4, "title": "Mouse", "path": "1.1.2", "children": [] },
+            { "id": 5, "title": "Keyboard", "path": "1.1.3", "children": [] }
+          ]
+        },
+        {
+          "id": 6,
+          "title": "Hardware",
+          "path": "1.2",
+          "children": [
+            { "id": 7, "title": "CPU", "path": "1.2.1", "children": [] },
+            { "id": 8, "title": "RAM", "path": "1.2.2", "children": [] },
+            { "id": 9, "title": "SSD", "path": "1.2.3", "children": [] }
+          ]
+        }
+      ]
+    },
+    { "id": 10, "title": "Mobile", "path": "2", "children": [] }
+  ],
+  "sidebarListDashboard": [
+    { "id": 0, "title": "سفارش‌ها", "url": "/dashboard/orders" },
+    {
+      "id": 1,
+      "title": "لیست کالاهای مرجوعی",
+      "url": "/dashboard/returnedList"
+    },
+    { "id": 2, "title": "لیست علاقه‌مندی", "url": "/dashboard/list" },
+    { "id": 3, "title": "خروج از حساب", "url": "/logout" },
+    { "id": 4, "title": "پروفایل", "url": "/dashboard/profile" }
+  ],
+  "orders": [
+    {
+      "id": 0,
+      "date": "20 خرداد 1402",
+      "status": "processed",
+      "sumPrices": "120000 تومان",
+      "sumProducts": "برای 46 مورد"
+    },
+    {
+      "id": 1,
+      "date": "20 خرداد 1402",
+      "status": "notProcess",
+      "sumPrices": "100000 تومان",
+      "sumProducts": "برای 26 مورد"
+    },
+    {
+      "id": 2,
+      "date": "20 خرداد 1402",
+      "status": "processing",
+      "sumPrices": "160000 تومان",
+      "sumProducts": "برای 48 مورد"
+    }
+  ],
+
+  "Product": {
+    "link": 1,
+    "title": "تلویزیون هوشمند ال جی 50 اینچ",
+    "colors": [
+      { "persianName": "آبی", "nameColor": "blue", "hexCode": "#1010aa" },
+      { "persianName": "مشکی", "nameColor": "black", "hexCode": "#101010" }
+    ],
+    "description": " تلویزیون 50 اینچ ال جی یکی از بهترین های در حال حاضر در بازار می‌باشد لطفا خرید بفرمایید",
+    "features": [
+      { "title": "صفحه نمایش:", "value": "50 اینچ" },
+      { "title": "سیستم عامل:", "value": "اندروید 12" },
+      { "title": "فناوری صفحه‌نمایش:", "value": "IPS" }
+    ],
+    "tag": [
+      { "title": "ال جی", "link": "" },
+      { "title": " تلویزیون ال جی", "link": "" }
+    ],
+    "price": "120,000,000",
+    "comments": [
+      {
+        "star": "5.0",
+        "title": "عالی",
+        "text": "تلویزیون خیلی گرونی هست ولی عالیه",
+        "writer": "علیرضا محمدی",
+        "dateSubmited": "2 خرداد 1402",
+        "likes": 24,
+        "disLikes": 2
+      },
+      {
+        "stars": "1.0",
+        "title": "گرون",
+        "text": "ارزش خریدن ندارد",
+        "writer": "یوسف جعفری",
+        "dateSubmited": "20 شهریور 1402",
+        "likes": 2,
+        "disLikes": 2
+      },
+      {
+        "star": "4.5",
+        "title": "خوب",
+        "text": "محیط کاربری خوبی داره",
+        "writer": "سجاد محمدی",
+        "dateSubmited": "9 مرداد 1402",
+        "likes": 4,
+        "disLikes": 5
+      },
+      {
+        "star": "3",
+        "title": "برای تماشا خوب است",
+        "text": "برای بازی مناسب نیست",
+        "writer": "سجاد اصغری",
+        "dateSubmited": "5 مرداد 1402",
+        "likes": 6,
+        "disLikes": 10
+      }
+    ],
+
+    "images": [
+      {
+        "imageSrc": "Images/products/tv.png",
+        "alt": "tv",
+        "link": ""
+      },
+      {
+        "imageSrc": "Images/products/tv.png",
+        "alt": "tv",
+        "link": ""
+      },
+      {
+        "imageSrc": "Images/products/tv.png",
+        "alt": "tv",
+        "link": ""
+      }
+    ],
+    "ordered": 5
+  },
+  "main": {
+    "slider": [
+      {
+        "imageSrc": "/Images/carousel2.webp",
+        "alt": "product1",
+        "link": "/product/1"
+      },
+      {
+        "imageSrc": "/Images/carousel2.webp",
+        "alt": "product2",
+        "link": "/product/2"
+      },
+      {
+        "imageSrc": "/Images/carousel2.webp",
+        "alt": "product3",
+        "link": "/product/3"
+      }
+    ],
+    "categories": [
+      {
+        "imageSrc": "/Images/carousel2.webp",
+        "alt": "گوشی موبایل",
+        "link": "/product/3"
+      },
+      {
+        "imageSrc": "/Images/laptop.webp",
+        "alt": "لپتاپ",
+        "link": "/product/3"
+      },
+      {
+        "imageSrc": "/Images/category1.jpeg",
+        "alt": "روغن",
+        "link": "/product/3"
+      },
+      {
+        "imageSrc": "/Images/category2.png",
+        "alt": "زیورآلات",
+        "link": "/product/3"
+      }
+    ],
+    "offerProducts": [
+      {
+        "alt": "گوشی",
+        "imageSrc": "Images/Offers/phone.jpg",
+        "link": ""
+      },
+      {
+        "alt": "لپتاپ",
+        "imageSrc": "Images/Offers/laptop.jpg",
+        "link": ""
+      },
+      {
+        "alt": "ساعت هوشمند",
+        "imageSrc": "Images/Offers/smartWatch.jpg",
+        "link": ""
+      },
+      {
+        "alt": "کاور",
+        "imageSrc": "Images/Offers/cover.jpg",
+        "link": ""
+      },
+      {
+        "alt": "هندزفری",
+        "imageSrc": "Images/Offers/handfree.jpg",
+        "link": ""
+      },
+      {
+        "alt": "جوراب",
+        "imageSrc": "Images/Offers/joorab.jpg",
+        "link": ""
+      },
+      {
+        "alt": "تبلت",
+        "imageSrc": "Images/Offers/tablet.jpg",
+        "link": ""
+      },
+      {
+        "alt": "کنسول",
+        "imageSrc": "Images/Offers/console.jpg",
+        "link": ""
+      }
+    ]
+  }
+}
