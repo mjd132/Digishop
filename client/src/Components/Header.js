@@ -1,9 +1,8 @@
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import SearchIcon from "@mui/icons-material/Search";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import {
   Box,
-  Button,
   Container,
   Grid,
   Icon,
@@ -15,15 +14,15 @@ import {
 import { blueGrey, grey } from "@mui/material/colors";
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import Buttonn from "./Buttonn";
 import { AuthContext } from "../Context/AuthContext";
+import Buttonn from "./Buttonn";
 
 const Header = ({ setOpenSearchDialog, setOpenBasketShop }) => {
   const authContext = useContext(AuthContext);
   const handleOpenDialog = () => {
     setOpenSearchDialog(true);
   };
-  const login = false;
+
   return (
     <Box sx={{ backgroundColor: blueGrey[900] }}>
       <Container>
@@ -77,25 +76,26 @@ const Header = ({ setOpenSearchDialog, setOpenBasketShop }) => {
             >
               <SearchIcon sx={{ color: "white" }} />
             </IconButton>
-            <IconButton>
-              {authContext.auth.user !== null ? (
-                <Link to={"/dashboard"}>
-                  <Typography sx={{ display: "inline-block" }}>
-                    {authContext.auth.user.profile.name}
-                  </Typography>
-                  <AccountCircleIcon sx={{ color: "white" }} />
-                </Link>
-              ) : (
-                <>
-                  <Buttonn variant="outlined" to={"/login"}>
-                    ورود | ثبت‌نام
-                  </Buttonn>
-                </>
-              )}
-            </IconButton>
-            <IconButton onClick={() => setOpenBasketShop(true)}>
-              <ShoppingBasketIcon sx={{ color: "white" }} />
-            </IconButton>
+
+            {authContext.auth.user !== null ? (
+              <>
+                <IconButton>
+                  <Link to={"/dashboard"}>
+                    <Typography sx={{ display: "inline-block" }}>
+                      {authContext.auth.user.profile.name}
+                    </Typography>
+                    <AccountCircleIcon sx={{ color: "white" }} />
+                  </Link>
+                </IconButton>
+                <IconButton onClick={() => setOpenBasketShop(true)}>
+                  <ShoppingBasketIcon sx={{ color: "white" }} />
+                </IconButton>
+              </>
+            ) : (
+              <Buttonn variant="outlined" to={"/login"}>
+                ورود | ثبت‌نام
+              </Buttonn>
+            )}
           </Grid>
         </Toolbar>
       </Container>

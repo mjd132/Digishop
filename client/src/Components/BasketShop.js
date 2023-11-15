@@ -11,14 +11,41 @@ import {
 } from "@mui/material";
 import { blueGrey, grey, red } from "@mui/material/colors";
 import React from "react";
+import { useAuthContext } from "../Context/AuthContext";
+import RequstServer from "../hook/request";
+import { useSnackbar } from "notistack";
+// import Snackbar from "./Snackbar";
 
 const BasketShop = ({ open, onClose, listShop }) => {
+  const { auth, setAuth } = useAuthContext();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const deleteItemFromBasket = (e, productId) => {
+    e.preventDefault();
+    RequstServer()
+      .PostData("/api/cart", null, {
+        id: productId,
+        action: "delete",
+      })
+      .then((res) => {
+        setAuth({ user: res.data, isAuth: true });
+        enqueueSnackbar({ variant: "info", message: "از لیست حذف شد!" });
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 504)
+          enqueueSnackbar({
+            message: "خطا در ارتباط با سرور !",
+            variant: "error",
+          });
+      });
+  };
   return (
     <Drawer
       anchor={"left"}
       open={open}
       onClose={onClose}
-      PaperProps={{ sx: { backgroundColor: grey[800] } }}
+      PaperProps={{ sx: { backgroundColor: grey[800], maxWidth: "30vw" } }}
     >
       <Box
         sx={{
@@ -51,14 +78,26 @@ const BasketShop = ({ open, onClose, listShop }) => {
 
         <Box>
           <List>
-            <ListItem sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "white", p: 1 }} variant="body1">
-                لپتاپ ایسوس
-              </Typography>
-              <IconButton>
-                <DeleteIcon sx={{ color: red[500] }} />
-              </IconButton>
-            </ListItem>
+            {auth.user &&
+              auth.user.cart &&
+              auth.user.cart.map((i, index) => (
+                <ListItem
+                  sx={{ display: "flex", justifyContent: "space-between" }}
+                  key={index}
+                >
+                  <Typography sx={{ color: "white", p: 1 }} variant="body1">
+                    {i.productName}
+                  </Typography>
+                  <Box sx={{ display: "flex", alignItems: "center" }}>
+                    <Typography color={"white"}>{"x" + i.count}</Typography>
+                    <IconButton
+                      onClick={(e) => deleteItemFromBasket(e, i.productId)}
+                    >
+                      <DeleteIcon sx={{ color: red[500] }} />
+                    </IconButton>
+                  </Box>
+                </ListItem>
+              ))}
           </List>
         </Box>
       </Box>

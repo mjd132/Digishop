@@ -1,37 +1,30 @@
 import { Box, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useAuthContext } from "../../Context/AuthContext";
 import Login from "../Login";
 import Signup from "../Signup";
+//...Imports
 const Auth = ({ user, setUser }) => {
   const [authForm, setAuthForm] = useState({ mobile: "", password: "" });
-  const [loginForm, setLoginForm] = useState(true);
-  const [error, setError] = useState();
+  const [isShowloginForm, setShowLoginForm] = useState(true);
+
   const authContext = useAuthContext();
-  const navigate = useNavigate();
+
   const switchLoginSignup = () => {
-    if (loginForm) {
+    if (isShowloginForm) {
       setAuthForm({ mobile: "", password: "", rePassword: "" });
-      setLoginForm(false);
+      setShowLoginForm(false);
     } else {
       setAuthForm({ mobile: "", password: "" });
-      setLoginForm(true);
+      setShowLoginForm(true);
     }
   };
 
-  const authentiate = async (e) => {
+  const authenticate = async (e) => {
     e.preventDefault();
-
-    console.log(authForm);
-    const res = await authContext.login(authForm);
-
-    if (res) {
-      console.log("navigate to dashboard");
-      navigate("/dashboard");
-    }
+    await authContext.login(authForm);
   };
 
   return (
@@ -71,23 +64,20 @@ const Auth = ({ user, setUser }) => {
         >
           <Link to="/">DGSHOP</Link>
         </Typography>
-        {/* <Typography>لطفا شماره موبایل یا ایمیل خود را وارد کنید</Typography> */}
-        {loginForm ? (
+        {/** ...return section */}
+        {isShowloginForm ? (
           <Login
             authForm={authForm}
             setAuthForm={setAuthForm}
-            authMethod={authentiate}
-            setLoginForm={setLoginForm}
+            authMethod={authenticate}
             switchToSignup={switchLoginSignup}
-            error={error}
           />
         ) : (
           <Signup
             authForm={authForm}
             setAuthForm={setAuthForm}
-            authMethod={authentiate}
+            authMethod={authenticate}
             switchToLogin={switchLoginSignup}
-            error={error}
           />
         )}
       </Box>

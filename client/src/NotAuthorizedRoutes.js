@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import Auth from "./Pages/Auth";
+import Auth from "./Components/Pages/Auth";
 
 const NotAuthorized = () => {
   return [

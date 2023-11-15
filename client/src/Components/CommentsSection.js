@@ -118,7 +118,7 @@ const CommentsSection = ({ comments }) => {
                     fontSize: 12,
                   }}
                 >
-                  {i.star}
+                  {i.stars}
                 </Box>
                 <Typography fontSize={{ xs: 16, sm: 18 }}>{i.title}</Typography>
               </Box>

@@ -1,21 +1,10 @@
 import { Box } from "@mui/material";
 import React, { useState } from "react";
 import invertColor from "../Utils/ConterastingColor";
-import { blue } from "@mui/material/colors";
 
 const ColorSelector = ({ colors }) => {
   const [selectColorProduct, setSelectColorProduct] = useState(0);
 
-  const color = {
-    blue: {
-      colorName: "آبی",
-      color: blue[600],
-    },
-    black: {
-      colorName: "مشکی",
-      color: "#111",
-    },
-  };
   const styleSelectColor = (color, isSelected) => {
     if (!isSelected)
       return {

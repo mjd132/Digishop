@@ -3,13 +3,7 @@ import { blue, blueGrey, grey, red } from "@mui/material/colors";
 import React, { useState } from "react";
 import Buttonn from "./Buttonn";
 
-const Signup = ({
-  authForm,
-  setAuthForm,
-  authMethod,
-  switchToLogin,
-  error,
-}) => {
+const Signup = ({ authForm, setAuthForm, authMethod, switchToLogin }) => {
   const [errorText, setErrorText] = useState(null);
 
   const checkInput = () => {
@@ -29,10 +23,6 @@ const Signup = ({
       setErrorText("تکرار رمز عبور یکسان نمی‌باشد!");
       return false;
     }
-    // if (error === 2003) {
-    //   setErrorText("کاربر با این شماره موبایل قبلا ثبت نام کرده است!");
-    //   return true;
-    // }
 
     setErrorText(null);
     return true;
@@ -43,83 +33,94 @@ const Signup = ({
       <Typography variant="h6" marginBottom={2} fontWeight={300}>
         ثبت نام کنید:
       </Typography>
-      <InputBase
-        name="mobile"
-        sx={{
-          borderRadius: 3,
-          border:
-            "1px solid " + (authForm.mobile === "" ? red[500] : grey[500]),
-
-          px: 1,
-          py: 0.5,
-          color: "white",
-          width: "100%",
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (checkInput()) authMethod(e);
         }}
-        placeholder="موبایل"
-        autoFocus={true}
-        onChange={(e) => setAuthForm({ ...authForm, mobile: e.target.value })}
-        onBlur={checkInput}
-        onFocus={() => setErrorText(null)}
-      />
-      <InputBase
-        type="password"
-        name="password"
-        placeholder="رمز عبور"
-        sx={{
-          borderRadius: 3,
-          border:
-            "1px solid " + (authForm.password === "" ? red[500] : grey[500]),
-
-          px: 1,
-          py: 0.5,
-          color: "white",
-          width: "100%",
-          mt: 1,
-        }}
-        onChange={(e) => setAuthForm({ ...authForm, password: e.target.value })}
-        onBlur={checkInput}
-        onFocus={() => setErrorText(null)}
-      />
-      <InputBase
-        type="password"
-        name="rePassword"
-        placeholder="تکرار رمز عبور"
-        sx={{
-          borderRadius: 3,
-          border:
-            "1px solid " + (authForm.rePassword === "" ? red[500] : grey[500]),
-
-          px: 1,
-          py: 0.5,
-          color: "white",
-          width: "100%",
-          mt: 1,
-        }}
-        onChange={(e) =>
-          setAuthForm({ ...authForm, rePassword: e.target.value })
-        }
-        onBlur={checkInput}
-        onFocus={() => setErrorText(null)}
-      />
-      <Typography marginTop={1} fontSize={14} color={red[500]}>
-        {errorText && errorText}
-      </Typography>
-
-      <ButtonBase
-        sx={{
-          width: "100%",
-          backgroundColor: blueGrey[700],
-          marginTop: 4,
-          borderRadius: 3,
-          color: "white",
-
-          py: 1,
-        }}
-        variant="contained"
-        onClick={(e) => (checkInput() ? authMethod(e) : null)}
       >
-        ثبت نام
-      </ButtonBase>
+        <InputBase
+          name="mobile"
+          sx={{
+            borderRadius: 3,
+            border:
+              "1px solid " + (authForm.mobile === "" ? red[500] : grey[500]),
+
+            px: 1,
+            py: 0.5,
+            color: "white",
+            width: "100%",
+          }}
+          placeholder="موبایل"
+          autoFocus={true}
+          onChange={(e) => setAuthForm({ ...authForm, mobile: e.target.value })}
+          onBlur={checkInput}
+          onFocus={() => setErrorText(null)}
+        />
+        <InputBase
+          type="password"
+          name="password"
+          placeholder="رمز عبور"
+          sx={{
+            borderRadius: 3,
+            border:
+              "1px solid " + (authForm.password === "" ? red[500] : grey[500]),
+
+            px: 1,
+            py: 0.5,
+            color: "white",
+            width: "100%",
+            mt: 1,
+          }}
+          onChange={(e) =>
+            setAuthForm({ ...authForm, password: e.target.value })
+          }
+          onBlur={checkInput}
+          onFocus={() => setErrorText(null)}
+        />
+        <InputBase
+          type="password"
+          name="rePassword"
+          placeholder="تکرار رمز عبور"
+          sx={{
+            borderRadius: 3,
+            border:
+              "1px solid " +
+              (authForm.rePassword === "" ? red[500] : grey[500]),
+
+            px: 1,
+            py: 0.5,
+            color: "white",
+            width: "100%",
+            mt: 1,
+          }}
+          onChange={(e) =>
+            setAuthForm({ ...authForm, rePassword: e.target.value })
+          }
+          onBlur={checkInput}
+          onFocus={() => setErrorText(null)}
+        />
+        <Typography marginTop={1} fontSize={14} color={red[500]}>
+          {errorText && errorText}
+        </Typography>
+
+        <ButtonBase
+          sx={{
+            width: "100%",
+            backgroundColor: blueGrey[700],
+            marginTop: 4,
+            borderRadius: 3,
+            color: "white",
+
+            py: 1,
+          }}
+          variant="contained"
+          type="submit"
+          onSubmit={(e) => (checkInput() ? authMethod(e) : null)}
+        >
+          ثبت نام
+        </ButtonBase>
+      </form>
       <Box
         sx={{
           display: "flex",

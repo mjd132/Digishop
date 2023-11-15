@@ -43,10 +43,7 @@ const Address = {
     },
   },
 };
-// const MainPageModel = {
-//   ImagesSlider: [Image],
-//   Categories: [Category],
-// };
+
 const ProfileModel = {
   name: String,
   family: String,

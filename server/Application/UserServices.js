@@ -60,9 +60,13 @@ async function editProfile(userId, profile) {
     });
 }
 async function addToCart(userId, item) {
-  return await User.findByIdAndUpdate(userId, { $push: { cart: item } })
-    .then(() => {
-      return true;
+  return await User.findByIdAndUpdate(
+    userId,
+    { $push: { cart: item } },
+    { new: true }
+  )
+    .then((res) => {
+      return res;
     })
     .catch((err) => {
       console.log(err);
@@ -70,22 +74,26 @@ async function addToCart(userId, item) {
     });
 }
 async function deleteFromCart(userId, productId) {
-  return await User.findByIdAndUpdate(userId, {
-    $pull: { cart: { productId: productId } },
-  })
-    .then(() => {
-      return true;
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      $pull: { cart: { productId: productId } },
+    },
+    { new: true }
+  )
+    .then((user) => {
+      return user;
     })
     .catch((err) => {
       console.log(err);
       return false;
     });
 }
-async function isExistItemInCart(userId, item) {
+async function isExistItemInCart(userId, productId) {
   return await User.findById(userId)
     .then((user) => {
       const itemIsExists = user.cart.some(
-        (item) => item.productId === item.productId
+        (item) => item.productId === productId
       );
       return itemIsExists;
     })

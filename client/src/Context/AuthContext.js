@@ -2,21 +2,10 @@ import axios from "axios";
 import { createContext, useContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext();
+
 export function useAuthContext() {
   return useContext(AuthContext);
 }
-export const checkAuth = (setAuth) => {
-  console.log("checkauth1");
-  axios
-    .get("/api/user")
-    .then((res) => {
-      console.log("checkAuth");
-      setAuth({ user: res.data, loading: false });
-    })
-    .catch((err) => {
-      setAuth({ user: null, loading: false });
-    });
-};
 
 export default function AuthContextProvider(props) {
   const [auth, setAuth] = useState({
@@ -28,34 +17,31 @@ export default function AuthContextProvider(props) {
   const checkAuth = () => {
     async function ch() {
       if (!loading) setLoading(true);
-      await axios
-        .get("/api/user")
-        .then((res) => {
-          setAuth((prevAuth) => ({
-            isAuth: true,
-            user: res.data,
-          }));
-        })
-        .catch((err) => {
-          console.log(err);
-          setAuth((prevAuth) => ({
-            isAuth: false,
-            user: null,
-          }));
-        });
+      if (auth.user === null)
+        await axios
+          .get("/api/user")
+          .then((res) => {
+            setAuth((prevAuth) => ({
+              isAuth: true,
+              user: res.data,
+            }));
+          })
+          .catch((err) => {
+            console.log(err);
+            setAuth((prevAuth) => ({
+              isAuth: false,
+              user: null,
+            }));
+          });
       setLoading(false);
     }
-    // setLoading(true);
+
     ch();
-    // setLoading(false);
   };
   //get user
   useEffect(() => {
-    // setLoading(true);
     checkAuth();
-    // setLoading(false);
   }, []);
-
   //logout
   const logout = () => {
     if (auth.user !== null) {
@@ -84,7 +70,6 @@ export default function AuthContextProvider(props) {
         if (res.data.code === 2000) {
           console.log("login");
           checkAuth();
-          // setLoading(false);
         } else {
           setAuth({ ...auth, isAuth: false });
           setLoading(false);
@@ -109,7 +94,7 @@ export default function AuthContextProvider(props) {
 
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, login, logout, loading, editProfile }}
+      value={{ auth, setAuth, login, logout, loading, setLoading, editProfile }}
     >
       {props.children}
     </AuthContext.Provider>

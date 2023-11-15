@@ -18,6 +18,7 @@ const ProductServices = require("../Application/ProductServices");
 const app = express();
 
 const { default: mongoose } = require("mongoose");
+const { title } = require("../Domain/Product");
 
 //
 const jwtRequired = passport.authenticate("jwt", { session: false });
@@ -56,8 +57,8 @@ app.use(passport.session());
 
 // /api route injection
 apiRouter.use(async (req, res, next) => {
-  await setTimeout(next, 1000);
-  // next();
+  // await setTimeout(next, 1000);
+  next();
 });
 
 //Passport-Local Authentication
@@ -286,18 +287,29 @@ apiRouter.post("/product", async (req, res) => {
 });
 apiRouter.route("/cart").post(async (req, res) => {
   const userId = req.session.userId;
-  const cart = req.body;
+  // const cart = req.body;
+  const params = req.query;
   if (!userId) {
     return res.sendStatus(401);
   }
-  if (Object.keys(cart).length === 0) return res.sendStatus(400);
+  if (Object.keys(params).length === 0) return res.sendStatus(400);
   // const user = await UserSevice.getUserById(userId);
-  const isItemExist = await UserSevice.isExistItemInCart(userId, cart);
-
-  if (isItemExist) return res.sendStatus(400);
-  const result = await UserSevice.addToCart(userId, cart);
-  if (result) return res.sendStatus(200);
-  else return res.sendStatus(500);
+  if (params.action === "delete") {
+    const result = await UserSevice.deleteFromCart(userId, params.id);
+    if (result) return res.json(result);
+    else return res.sendStatus(400);
+  } else if (params.action === "add") {
+    const productId = parseInt(params.id);
+    const isItemExist = await UserSevice.isExistItemInCart(userId, productId);
+    if (isItemExist) return res.status(400).send("Item exist in cart!");
+    const result = await UserSevice.addToCart(userId, {
+      productId: params.id,
+      productName: params.title,
+      count: params.count,
+    });
+    if (result) return res.json(result);
+    else return res.sendStatus(500);
+  }
 });
 app.post("/", authenticator, (req, res) => {});
 

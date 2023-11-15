@@ -11,17 +11,19 @@ import {
   Typography,
 } from "@mui/material";
 import { blue, green, grey, red } from "@mui/material/colors";
+import axios from "axios";
+import { useSnackbar } from "notistack";
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useAuthContext } from "../../Context/AuthContext";
+import RequstServer from "../../hook/request";
 import ColorSelector from "../ColorSelector";
 import CommentsSection from "../CommentsSection";
-import Linnk from "../Linnk";
-import Slider from "../Slider";
-import { useAuthContext } from "../../Context/AuthContext";
-import Loading from "../Loading";
-import axios from "axios";
-import { useParams } from "react-router-dom";
-import PageNotFound from "../PageNotFound";
 import E504 from "../E504";
+import Linnk from "../Linnk";
+import Loading from "../Loading";
+import PageNotFound from "../PageNotFound";
+import Slider from "../Slider";
 
 const ShopingButton = ({ addToBasket }) => {
   return (
@@ -51,8 +53,9 @@ const ShopingButton = ({ addToBasket }) => {
 const Product = () => {
   const [productDetail, setProductDetail] = useState(null);
   const [loading, setLoading] = useState(true);
+  const { enqueueSnackbar } = useSnackbar();
   const { productId } = useParams();
-  const { auth } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   if (!productDetail)
     axios
       .get(`/api/product/${productId}`)
@@ -63,19 +66,50 @@ const Product = () => {
       .catch((err) => {
         console.log(err);
         if (err.response.status === 504) setProductDetail(504);
-
         if (err.response.status === 404) setProductDetail(404);
       })
       .finally(() => {
         setLoading(false);
       });
+
+  const addToBasket = async (e) => {
+    e.preventDefault();
+    if (!auth.user) {
+      enqueueSnackbar({
+        message: "  لطفا وارد شوید !  ",
+        variant: "error",
+      });
+    }
+    const query = {
+      id: productDetail.link,
+      title: productDetail.title,
+      count: 1,
+      action: "add",
+    };
+    await RequstServer()
+      .PostData("/api/cart", null, query)
+      .then((res) => {
+        console.log(res);
+        setAuth((prevAuth) => ({ ...prevAuth, user: res.data }));
+        enqueueSnackbar({
+          message: "به لیست خرید اضافه شد!",
+          variant: "success",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+        if (err.response.status === 504)
+          enqueueSnackbar({
+            message: "خطا در ارتباط با سرور !",
+            variant: "error",
+          });
+      });
+  };
+
   if (loading) return <Loading />;
   if (productDetail === 404) return <PageNotFound />;
   if (productDetail === 504) return <E504 />;
-  const addToBasket = (e) => {
-    e.preventDefault();
-    if (!auth.isAuth) return;
-  };
+
   return (
     <Box sx={{ mt: 2, pb: "100px" }}>
       {/* Routes section */}
@@ -126,7 +160,9 @@ const Product = () => {
                 تومان
               </Typography>
             </Box>
-            <ShopingButton>افزودن به سبد خرید</ShopingButton>
+            <ShopingButton addToBasket={addToBasket}>
+              افزودن به سبد خرید
+            </ShopingButton>
           </Box>
         </Grid>
         <Grid item xs={12} md={8} width={{ xs: "100%", md: "auto" }}>
@@ -313,7 +349,7 @@ const Product = () => {
               zIndex: 4,
             }}
           >
-            <ShopingButton />
+            <ShopingButton addToBasket={addToBasket} />
             <Typography fontSize={{ xs: 16, sm: 24 }} fontWeight={[500]}>
               120,000,000 تومان
             </Typography>

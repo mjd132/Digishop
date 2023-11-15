@@ -17,7 +17,6 @@ const Loading = () => {
           height: "100vh",
         }}
       >
-        {" "}
         <Typography variant="h5">در حال بارگذاری سایت . . .</Typography>
       </Box>
     </>

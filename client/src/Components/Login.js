@@ -1,15 +1,9 @@
 import { Box, Button, ButtonBase, InputBase, Typography } from "@mui/material";
+import { blue, blueGrey, grey, red } from "@mui/material/colors";
 import React, { useState } from "react";
 import Buttonn from "./Buttonn";
-import { blue, blueGrey, grey, red } from "@mui/material/colors";
-
-const Login = ({
-  authForm,
-  setAuthForm,
-  authMethod,
-  switchToSignup,
-  error,
-}) => {
+//...imports
+const Login = ({ authForm, setAuthForm, authMethod, switchToSignup }) => {
   const [errorText, setErrorText] = useState(null);
 
   const checkInput = () => {
@@ -21,14 +15,7 @@ const Login = ({
       setErrorText("لطفا رمز عبور خود را وارد نمایید!");
       return false;
     }
-    // if (error === 2001) {
-    //   setErrorText("شماره موبایل صحیح نمی باشد!");
-    //   return true;
-    // }
-    // if (error === 2002) {
-    //   setErrorText("رمز عبور اشتباه است!");
-    //   return true;
-    // }
+
     setErrorText(null);
     return true;
   };
@@ -38,62 +25,72 @@ const Login = ({
       <Typography variant="h6" marginBottom={2} fontWeight={300}>
         وارد شوید:
       </Typography>
-      <InputBase
-        name="mobile"
-        sx={{
-          borderRadius: 3,
-          border:
-            "1px solid " + (authForm.mobile === "" ? red[500] : grey[500]),
-
-          px: 1,
-          py: 0.5,
-          color: "white",
-          width: "100%",
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          if (checkInput()) authMethod(e);
         }}
-        placeholder="موبایل"
-        autoFocus={true}
-        onChange={(e) => setAuthForm({ ...authForm, mobile: e.target.value })}
-        onBlur={checkInput}
-        onFocus={() => setErrorText(null)}
-      />
-      <InputBase
-        type="password"
-        name="password"
-        placeholder="رمز عبور"
-        sx={{
-          borderRadius: 3,
-          border:
-            "1px solid " + (authForm.password === "" ? red[500] : grey[500]),
-
-          px: 1,
-          py: 0.5,
-          color: "white",
-          width: "100%",
-          mt: 1,
-        }}
-        onChange={(e) => setAuthForm({ ...authForm, password: e.target.value })}
-        onBlur={checkInput}
-        onFocus={() => setErrorText(null)}
-      />
-      <Typography marginTop={1} fontSize={14} color={red[500]}>
-        {errorText && errorText}
-      </Typography>
-
-      <ButtonBase
-        sx={{
-          width: "100%",
-          backgroundColor: blueGrey[700],
-          marginTop: 4,
-          borderRadius: 3,
-          color: "white",
-
-          py: 1,
-        }}
-        variant="contained"
-        onClick={(e) => (checkInput() ? authMethod(e) : null)}
       >
-        ورود
-      </ButtonBase>
+        <InputBase
+          name="mobile"
+          sx={{
+            borderRadius: 3,
+            border:
+              "1px solid " + (authForm.mobile === "" ? red[500] : grey[500]),
+
+            px: 1,
+            py: 0.5,
+            color: "white",
+            width: "100%",
+          }}
+          placeholder="موبایل"
+          autoFocus={true}
+          onChange={(e) => setAuthForm({ ...authForm, mobile: e.target.value })}
+          onBlur={checkInput}
+          onFocus={() => setErrorText(null)}
+        />
+        <InputBase
+          type="password"
+          name="password"
+          placeholder="رمز عبور"
+          sx={{
+            borderRadius: 3,
+            border:
+              "1px solid " + (authForm.password === "" ? red[500] : grey[500]),
+
+            px: 1,
+            py: 0.5,
+            color: "white",
+            width: "100%",
+            mt: 1,
+          }}
+          onChange={(e) =>
+            setAuthForm({ ...authForm, password: e.target.value })
+          }
+          onBlur={checkInput}
+          onFocus={() => setErrorText(null)}
+        />
+        <Typography marginTop={1} fontSize={14} color={red[500]}>
+          {errorText && errorText}
+        </Typography>
+
+        <ButtonBase
+          sx={{
+            width: "100%",
+            backgroundColor: blueGrey[700],
+            marginTop: 4,
+            borderRadius: 3,
+            color: "white",
+
+            py: 1,
+          }}
+          type="submit"
+          variant="contained"
+        >
+          ورود
+        </ButtonBase>
+      </form>
+
       <Box
         sx={{
           display: "flex",
