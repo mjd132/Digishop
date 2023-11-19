@@ -1,0 +1,20 @@
+{
+  "sidebarListUserDashboard": [
+    { "id": 0, "title": "سفارش‌ها", "url": "/dashboard/orders" },
+    {
+      "id": 1,
+      "title": "لیست کالاهای مرجوعی",
+      "url": "/dashboard/returnedList"
+    },
+    { "id": 2, "title": "لیست علاقه‌مندی", "url": "/dashboard/list" },
+    { "id": 3, "title": "خروج از حساب", "url": "/logout" },
+    { "id": 4, "title": "پروفایل", "url": "/dashboard/profile" }
+  ],
+  "sidebarListAdminDashboard": [
+    { "id": 0, "title": "گزارشات", "url": "/dashboard/reports" },
+    { "id": 1, "title": "سفارشات تایید شده", "url": "/dashboard/ordered" },
+    { "id": 2, "title": "مدیریت مدیران", "url": "/dashboard/AdminManager" },
+    { "id": 3, "title": "پروفایل", "url": "/dashboard/profile" },
+    { "id": 4, "title": "خروج از حساب", "url": "/logout" }
+  ]
+}
