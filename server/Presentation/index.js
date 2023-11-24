@@ -14,7 +14,7 @@ const jwt = require("jsonwebtoken");
 const MongoStore = require("connect-mongo");
 const MainServices = require("../Application/MainServices");
 const ProductServices = require("../Application/ProductServices");
-
+const AdminServices = require("../Application/AdminServices");
 const app = express();
 
 const { default: mongoose } = require("mongoose");
@@ -275,7 +275,7 @@ async function checkIsAdmin(req, res, next) {
   else return res.sendStatus(401);
 }
 // TODO - check is admin
-apiRouter.post("/product", async (req, res) => {
+apiRouter.post("/product", checkIsAdmin, async (req, res) => {
   const product = req.body;
   if (Object.keys(product).length === 0) return res.status(500).json();
   const result = await ProductServices.add(product);
@@ -285,6 +285,27 @@ apiRouter.post("/product", async (req, res) => {
     return res.sendStatus(500);
   }
 });
+
+apiRouter
+  .route("/admin")
+  .get(checkIsAdmin, async (req, res) => {
+    const admins = await AdminServices.getAdmins();
+    if (admins) res.json(admins);
+    else res.sendStatus(400);
+  })
+  .put(checkIsAdmin, async (req, res) => {
+    const { mobile } = req.query;
+    const result = await AdminServices.addAdmin(mobile);
+    if (result) res.json(result);
+    else res.sendStatus(400);
+  })
+  .delete(checkIsAdmin, async (req, res) => {
+    const { mobile } = req.query;
+    const result = await AdminServices.deleteAdmin(mobile);
+    if (result) res.json(result);
+    else res.sendStatus(400);
+  });
+
 apiRouter.route("/cart").post(async (req, res) => {
   const userId = req.session.userId;
   // const cart = req.body;
