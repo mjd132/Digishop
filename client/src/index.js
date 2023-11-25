@@ -54,6 +54,11 @@ const theme = createTheme({
     },
     MuiTextField: {
       styleOverrides: {
+        filled: {
+          "&:not(.Mui-focused)": {
+            transform: "translate(12px, 13px) scale(1)",
+          },
+        },
         root: {
           direction: "rtl",
           "& .MuiOutlinedInput-root": {
@@ -80,8 +85,12 @@ const theme = createTheme({
           "& legend": {
             height: "10px",
           },
+
           "& .MuiInputLabel-root.Mui-focused": {
             color: "#ffffffcc",
+            transform: "translate(14px, -2px) scale(0.75)",
+          },
+          "& .MuiInputLabel-root.MuiFormLabel-filled": {
             transform: "translate(14px, -2px) scale(0.75)",
           },
           "& .MuiInputBase-input": {
@@ -91,6 +100,7 @@ const theme = createTheme({
         },
       },
     },
+
     MuiPaper: {
       styleOverrides: {
         root: {
