@@ -1,12 +1,40 @@
 import axios from "axios";
 const RequstServer = () => {
-  const Get = (url, params) => {
-    const response = axios.get(url, params);
-    return response;
+  const Get = (url, query) => {
+    return new Promise(async (resolve, reject) => {
+      await axios
+        .get(url, { params: query })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   };
-  const Update = (url, data) => {
-    const res = axios.patch(url, data);
-    return res;
+  const Put = async (url, query) => {
+    return await new Promise(async (resolve, reject) => {
+      await axios
+        .put(url, { params: query })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
+  };
+  const Delete = async (url, query) => {
+    return await new Promise(async (resolve, reject) => {
+      await axios
+        .delete(url, { params: query })
+        .then((res) => {
+          resolve(res);
+        })
+        .catch((err) => {
+          reject(err);
+        });
+    });
   };
   const PostData = (url, data, query) => {
     return new Promise(async (resolve, reject) => {
@@ -22,8 +50,9 @@ const RequstServer = () => {
   };
   return {
     Get,
-    Update,
+    Put,
     PostData,
+    Delete,
   };
 };
 
