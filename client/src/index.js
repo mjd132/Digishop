@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
@@ -74,11 +74,15 @@ const theme = createTheme({
             transformOrigin: "right !important",
             left: "inherit !important",
             right: "1.75rem !important",
-            top: "-0.55rem",
+            top: "-0.6rem",
             color: "#ffffff7f",
+          },
+          "& legend": {
+            height: "10px",
           },
           "& .MuiInputLabel-root.Mui-focused": {
             color: "#ffffffcc",
+            transform: "translate(14px, -2px) scale(0.75)",
           },
           "& .MuiInputBase-input": {
             padding: "8px",
