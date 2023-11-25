@@ -1,20 +1,62 @@
 {
   "sidebarListUserDashboard": [
-    { "id": 0, "title": "سفارش‌ها", "url": "/dashboard/orders" },
+    {
+      "id": 0,
+      "title": "سفارش‌ها",
+      "url": "/dashboard/orders",
+      "icon": "ShoppingCartIcon"
+    },
     {
       "id": 1,
       "title": "لیست کالاهای مرجوعی",
-      "url": "/dashboard/returnedList"
+      "url": "/dashboard/returnedList",
+      "icon": "ShoppingCartCheckoutIcon"
     },
-    { "id": 2, "title": "لیست علاقه‌مندی", "url": "/dashboard/list" },
-    { "id": 3, "title": "خروج از حساب", "url": "/logout" },
-    { "id": 4, "title": "پروفایل", "url": "/dashboard/profile" }
+    {
+      "id": 2,
+      "title": "لیست علاقه‌مندی",
+      "url": "/dashboard/list",
+      "icon": "ThumbUpIcon"
+    },
+    {
+      "id": 3,
+      "title": "خروج از حساب",
+      "url": "/logout",
+      "icon": "LogoutIcon"
+    },
+    { "id": 4, "title": "پروفایل", "url": "/dashboard/profile", "icon": "" }
   ],
   "sidebarListAdminDashboard": [
-    { "id": 0, "title": "گزارشات", "url": "/dashboard/reports" },
-    { "id": 1, "title": "سفارشات تایید شده", "url": "/dashboard/ordered" },
-    { "id": 2, "title": "مدیریت مدیران", "url": "/dashboard/AdminManager" },
-    { "id": 3, "title": "پروفایل", "url": "/dashboard/profile" },
-    { "id": 4, "title": "خروج از حساب", "url": "/logout" }
+    {
+      "id": 0,
+      "title": "گزارشات",
+      "url": "/dashboard/reports",
+      "icon": "BarChartIcon"
+    },
+    {
+      "id": 1,
+      "title": "سفارشات تایید شده",
+      "url": "/dashboard/ordered",
+      "icon": "ShoppingCartCheckoutIcon"
+    },
+    {
+      "id": 2,
+      "title": "مدیریت مدیران",
+      "url": "/dashboard/AdminManager",
+      "icon": "PeopleIcon"
+    },
+    {
+      "id": 3,
+      "title": "مدیریت محصولات",
+      "url": "/dashboard/ProductManager",
+      "icon": "BallotIcon"
+    },
+    {
+      "id": 4,
+      "title": "پروفایل",
+      "url": "/dashboard/profile",
+      "icon": "ManageAccountsIcon"
+    },
+    { "id": 5, "title": "خروج از حساب", "url": "/logout", "icon": "LogoutIcon" }
   ]
 }
