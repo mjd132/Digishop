@@ -23,6 +23,7 @@ const NavMenu = () => {
         borderBottom: "1px solid " + grey[700],
         transitionProperty: "all",
         transitionDelay: "50ms",
+        p: 0,
         transitionTimingFunction: "ease-in-out",
       }}
       position="sticky"
