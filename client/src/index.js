@@ -52,6 +52,51 @@ const theme = createTheme({
         },
       },
     },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          direction: "rtl",
+          "& .MuiOutlinedInput-root": {
+            "& fieldset": {
+              borderColor: "#ffffff7f",
+              textAlign: "right",
+            },
+            "&:hover fieldset": {
+              borderColor: "#ffffffbb",
+              textAlign: "right",
+            },
+            "&.Mui-focused fieldset": {
+              borderColor: "#ffffffaa",
+              textAlign: "right",
+            },
+          },
+          "& label": {
+            transformOrigin: "right !important",
+            left: "inherit !important",
+            right: "1.75rem !important",
+            top: "-0.55rem",
+            color: "#ffffff7f",
+          },
+          "& .MuiInputLabel-root.Mui-focused": {
+            color: "#ffffffcc",
+          },
+          "& .MuiInputBase-input": {
+            padding: "8px",
+            color: "white",
+          },
+        },
+      },
+    },
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          backgroundColor: "transparent",
+          color: grey[100],
+          padding: "8px",
+          borderColor: grey[500],
+        },
+      },
+    },
   },
   typography: {
     fontFamily: ['"Vazirmatn RD FD"', "sans-serif"].join(","),
