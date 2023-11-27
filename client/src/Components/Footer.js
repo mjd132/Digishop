@@ -56,7 +56,7 @@ const Footer = () => {
           </List>
           <List>
             <ListItem sx={{ fontWeight: 700 }}>
-              راهنمای خرید از دیجی‌کالا
+              راهنمای خرید از دیجی‌شاپ
             </ListItem>
             <ListItem sx={{ color: blueGrey[300], fontWeight: 300 }}>
               نحوه ثبت سفارش
