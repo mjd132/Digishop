@@ -26,8 +26,8 @@ const Feature = {
 };
 const ProductModel = {
   title: String,
-  link: Number,
   description: String,
+  link: { type: Number, index: true },
   features: [Feature],
   tags: [Tag],
   images: [Image],
