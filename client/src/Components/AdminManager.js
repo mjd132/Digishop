@@ -32,7 +32,7 @@ const AdminManager = () => {
   }, []);
   const addAdmin = async () => {
     if (adminMobile !== "")
-      await Put("/api/admin", "", { mobile: adminMobile })
+      await Put("/api/admin", null, { mobile: adminMobile })
         .then((result) => {
           setAdmins(result.data);
           enqueueSnackbar("مدیر با موفقیت افزوده شد !", {
@@ -47,7 +47,7 @@ const AdminManager = () => {
     else enqueueSnackbar("موبایل خالی می باشد !", { variant: "error" });
   };
   const deleteAdmin = async (mobile) => {
-    await Delete("/api/admin", null, { mobile: mobile })
+    await Delete("/api/admin", { mobile: mobile })
       .then((result) => {
         setAdmins(result.data);
         enqueueSnackbar("مدیر با موفقیت حذف شد !", {

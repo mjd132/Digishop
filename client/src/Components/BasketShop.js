@@ -1,5 +1,5 @@
-import DeleteIcon from "@mui/icons-material/Delete";
 import CloseIcon from "@mui/icons-material/Close";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   Box,
   Button,
@@ -10,16 +10,17 @@ import {
   Typography,
 } from "@mui/material";
 import { blueGrey, grey, red } from "@mui/material/colors";
+import { useSnackbar } from "notistack";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import RequstServer from "../hook/request";
-import { useSnackbar } from "notistack";
 // import Snackbar from "./Snackbar";
 
 const BasketShop = ({ open, onClose, listShop }) => {
-  const { auth, setAuth } = useAuthContext();
+  const { auth, setAuth, submitOrder } = useAuthContext();
   const { enqueueSnackbar } = useSnackbar();
-
+  const navigate = useNavigate();
   const deleteItemFromBasket = (e, productId) => {
     e.preventDefault();
     RequstServer()
@@ -40,12 +41,20 @@ const BasketShop = ({ open, onClose, listShop }) => {
           });
       });
   };
+  const submitButton = () => {
+    navigate("/final");
+  };
   return (
     <Drawer
       anchor={"left"}
       open={open}
       onClose={onClose}
-      PaperProps={{ sx: { backgroundColor: grey[800], maxWidth: "30vw" } }}
+      PaperProps={{
+        sx: {
+          backgroundColor: grey[800],
+          maxWidth: { xs: "100vw", sm: "70vw", md: "30vw" },
+        },
+      }}
     >
       <Box
         sx={{
@@ -101,7 +110,10 @@ const BasketShop = ({ open, onClose, listShop }) => {
           </List>
         </Box>
       </Box>
-      <Button sx={{ color: "white", backgroundColor: blueGrey[600], mx: 2 }}>
+      <Button
+        sx={{ color: "white", backgroundColor: blueGrey[600], mx: 2 }}
+        onClick={submitButton}
+      >
         ثبت نهایی خرید
       </Button>
     </Drawer>
