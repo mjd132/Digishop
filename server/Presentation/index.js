@@ -4,37 +4,33 @@ const PORT = process.env.PORT || 3001;
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const bcrypt = require("bcrypt");
-// const session = require("cookie-session");
 const session = require("express-session");
-const { User, Product } = require("../Infrastructure/Database");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const apiRouter = express.Router();
-const jwt = require("jsonwebtoken");
+const cors = require("cors");
 const MongoStore = require("connect-mongo");
+const UploadFile = require("../Application/FileStorageServices");
 const MainServices = require("../Application/MainServices");
 const ProductServices = require("../Application/ProductServices");
 const AdminServices = require("../Application/AdminServices");
 const app = express();
+const path = require("path");
 
-const { default: mongoose } = require("mongoose");
-const { title } = require("../Domain/Product");
+//CORS Middleware
+app.use(cors());
 
-//
-const jwtRequired = passport.authenticate("jwt", { session: false });
 //express json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+//upload directory
+const uploadDirectory = path.join(__dirname, "../../", "uploads");
+console.log(uploadDirectory);
+app.use("/uploads", express.static(uploadDirectory));
+
 // cookie and session setup
 app.use(cookieParser());
-// app.use(
-//   session({
-//     name: "DigishopAuth",
-//     keys: "Digishop-Secret-Key-lackvqi4o53m;9cvuaw4",
-//     maxAge: new Date(Date.now() + 30 * 60 * 1000), // Set the session to expire in 30 minutes (in milliseconds)
-//   })
-// );
 
 app.use(
   session({
@@ -48,12 +44,10 @@ app.use(
     cookie: { maxAge: 30 * 60 * 1000 },
   })
 );
-1;
+
 //Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
-
-//
 
 // /api route injection
 apiRouter.use(async (req, res, next) => {
@@ -135,15 +129,8 @@ passport.use(
     }
   )
 );
-// passport.serializeUser(async (user, done) => {
-//   await done(null, user.id);
-// });
 
-// passport.deserializeUser(async (id, done) => {
-//   const user = await UserSevice.getUserById(id);
-//   await done(null, user);
-// });
-
+// Authenticator Middleware
 async function authenticator(req, res, next) {
   if (req.body.rePassword) {
     passport.authenticate("passport-signup", (err, user, info) => {
@@ -176,9 +163,18 @@ async function authenticator(req, res, next) {
   }
 }
 
+// Check User Is Admin Middleware
+async function checkIsAdmin(req, res, next) {
+  const userId = req.session.userId;
+  if (!userId) return res.status(401).json({ message: "Unauthorized!" });
+  const user = await UserSevice.getUserById(userId);
+  if (user.role === "admin") next();
+  else return res.sendStatus(401);
+}
+
 // Define child routes under /api
+// - login logout profile signup and auth Section
 apiRouter.post("/auth", authenticator, async (req, res) => {
-  // res.redirect("/dashboard");
   await res.json({ message: "authenticate succussful", code: 2000 });
 });
 apiRouter.get("/user/logout", async (req, res) => {
@@ -199,7 +195,6 @@ apiRouter.get("/user", async (req, res) => {
     res.status(401).json({ message: "Unauthorize", code: 2004 });
   }
 });
-//TODO - is Authed? to sperate function
 apiRouter.post("/user/profile", async (req, res) => {
   const body = req.body;
   const userId = req.session.userId;
@@ -247,13 +242,13 @@ apiRouter.post("/user/profile", async (req, res) => {
   }
 });
 
+// - Main Section
 apiRouter.get("/main", async (req, res) => {
   const content = await MainServices.get();
   if (content) return res.status(200).json(content);
   else return res.sendStatus(500);
 });
-// TODO - check is admin
-apiRouter.post("/main", async (req, res) => {
+apiRouter.post("/main", checkIsAdmin, async (req, res) => {
   const main = req.body;
   if (Object.keys(main).length === 0) return res.sendStatus(500);
   const result = await MainServices.set(main);
@@ -261,31 +256,39 @@ apiRouter.post("/main", async (req, res) => {
   else return res.sendStatus(500);
 });
 
+// - Product Section
 apiRouter.get("/product/:productId", async (req, res) => {
   const productId = req.params.productId;
   const result = await ProductServices.get(productId);
   if (result) res.json(result);
   else res.status(404).json();
 });
-async function checkIsAdmin(req, res, next) {
-  const userId = req.session.userId;
-  if (!userId) return res.status(401).json({ message: "Unauthorized!" });
-  const user = await UserSevice.getUserById(userId);
-  if (user.role === "admin") next();
-  else return res.sendStatus(401);
-}
-// TODO - check is admin
-apiRouter.post("/product", checkIsAdmin, async (req, res) => {
-  const product = req.body;
-  if (Object.keys(product).length === 0) return res.status(500).json();
-  const result = await ProductServices.add(product);
-  if (result) {
-    return res.json(result);
-  } else {
-    return res.sendStatus(500);
+apiRouter.post(
+  "/product",
+  checkIsAdmin,
+  UploadFile.handleFileUpload("images").array,
+  async (req, res) => {
+    const product = JSON.parse(req.body.product);
+    const images = req.files;
+    if (Object.keys(product).length === 0) return res.sendStatus(500);
+    if (images.length > 0) {
+      product.images = images.map((i) => {
+        return {
+          imageSrc: i.path.replace(/\//g, "//"),
+          alt: i.originalname,
+          link: "",
+        };
+      });
+    }
+    const result = await ProductServices.add(product);
+    if (result) {
+      return res.json(result);
+    } else {
+      return res.sendStatus(500);
+    }
   }
-});
-
+);
+// - Admin Section
 apiRouter
   .route("/admin")
   .get(checkIsAdmin, async (req, res) => {
@@ -300,13 +303,14 @@ apiRouter
     else res.sendStatus(400);
   })
   .delete(checkIsAdmin, async (req, res) => {
-    const { mobile } = req.query;
+    const { mobile } = req.body;
     const result = await AdminServices.deleteAdmin(mobile);
     if (result) res.json(result);
     else res.sendStatus(400);
   });
 
-apiRouter.route("/cart").post(async (req, res) => {
+// - Basket Shop Section
+apiRouter.post("/cart", async (req, res) => {
   const userId = req.session.userId;
   // const cart = req.body;
   const params = req.query;
@@ -332,15 +336,11 @@ apiRouter.route("/cart").post(async (req, res) => {
     else return res.sendStatus(500);
   }
 });
-app.post("/", authenticator, (req, res) => {});
-
-apiRouter.get("/test", (req, res) => {
-  res.json(req.body);
-});
 
 // Mount the /api router to the main app
 app.use("/api", apiRouter);
 
+// Run App
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
 });
