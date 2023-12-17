@@ -8,4 +8,11 @@ module.exports = function (app) {
       changeOrigin: true,
     })
   );
+  app.use(
+    "/uploads", // specify the uploads route
+    createProxyMiddleware({
+      target: "http://localhost:3001",
+      changeOrigin: true,
+    })
+  );
 };
