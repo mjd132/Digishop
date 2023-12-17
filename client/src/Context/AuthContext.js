@@ -91,10 +91,21 @@ export default function AuthContextProvider(props) {
         console.log(err);
       });
   };
-
+  const submitOrder = async (orders) => {
+    await axios.post();
+  };
   return (
     <AuthContext.Provider
-      value={{ auth, setAuth, login, logout, loading, setLoading, editProfile }}
+      value={{
+        auth,
+        setAuth,
+        login,
+        logout,
+        loading,
+        setLoading,
+        editProfile,
+        submitOrder,
+      }}
     >
       {props.children}
     </AuthContext.Provider>
