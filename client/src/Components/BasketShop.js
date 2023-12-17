@@ -15,10 +15,9 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../Context/AuthContext";
 import RequstServer from "../hook/request";
-// import Snackbar from "./Snackbar";
 
 const BasketShop = ({ open, onClose, listShop }) => {
-  const { auth, setAuth, submitOrder } = useAuthContext();
+  const { auth, setAuth } = useAuthContext();
   const { enqueueSnackbar } = useSnackbar();
   const navigate = useNavigate();
   const deleteItemFromBasket = (e, productId) => {

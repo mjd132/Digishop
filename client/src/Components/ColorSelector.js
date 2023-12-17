@@ -22,28 +22,29 @@ const ColorSelector = ({ colors }) => {
   };
   return (
     <Box sx={{ display: "flex", alignItems: "center", mr: 2 }}>
-      {colors &&
-        colors.map((i, index) => {
-          return (
-            <Box
-              key={index}
-              sx={{
-                cursor: "pointer",
-                boxSizing: "border-box",
-                borderRadius: 10,
-                backgroundColor: i.hexCode,
-                px: 3,
-                py: 0.5,
-                ml: 1,
-                color: invertColor(i.hexCode, true),
-                ...styleSelectColor(i.hexCode, index === selectColorProduct),
-              }}
-              onClick={() => setSelectColorProduct(index)}
-            >
-              {i.persianName}
-            </Box>
-          );
-        })}
+      {colors.length > 0
+        ? colors.map((i, index) => {
+            return (
+              <Box
+                key={index}
+                sx={{
+                  cursor: "pointer",
+                  boxSizing: "border-box",
+                  borderRadius: 10,
+                  backgroundColor: i.hexCode,
+                  px: 3,
+                  py: 0.5,
+                  ml: 1,
+                  color: invertColor(i.hexCode, true),
+                  ...styleSelectColor(i.hexCode, index === selectColorProduct),
+                }}
+                onClick={() => setSelectColorProduct(index)}
+              >
+                {i.persianName}
+              </Box>
+            );
+          })
+        : null}
     </Box>
   );
 };
