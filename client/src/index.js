@@ -25,7 +25,15 @@ const theme = createTheme({
     },
     MuiDivider: {
       styleOverrides: {
-        root: { borderColor: grey[500] },
+        root: {
+          borderColor: grey[500],
+          "&:after": {
+            borderColor: grey[500],
+          },
+          "&:before": {
+            borderColor: grey[500],
+          },
+        },
       },
     },
     MuiTypography: {
@@ -129,9 +137,11 @@ root.render(
         },
         "&::-webkit-scrollbar": {
           width: "8px",
+          height: "8px",
         },
         "&::-webkit-scrollbar-thumb": {
           width: "8px",
+          height: "8px",
           backgroundColor: grey[500],
         },
         "&::-webkit-scrollbar-track": { backgroundColor: grey[800] },
