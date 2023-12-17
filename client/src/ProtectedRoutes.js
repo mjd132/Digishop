@@ -5,6 +5,8 @@ import { useAuthContext } from "./Context/AuthContext";
 import Reports from "./Components/Reports";
 import Ordered from "./Components/Ordered";
 import AdminManager from "./Components/AdminManager";
+import FinalSubmitOrder from "./Components/FinalSubmitOrder";
+import ProductManager from "./Components/ProductManager";
 const Dashboard = lazy(() => import("./Components/Pages/Dashboard"));
 const Orders = lazy(() => import("./Components/OrdersTable"));
 const Logout = lazy(() => import("./Components/Logout"));
@@ -25,6 +27,7 @@ export default function ProtectedRoutes() {
             { path: "reports", element: <Reports /> },
             { path: "ordered", element: <Ordered /> },
             { path: "adminmanager", element: <AdminManager /> },
+            { path: "productmanager", element: <ProductManager /> },
             { path: "profile", element: <ProfileEditor /> },
             { path: "logout", element: <Logout /> },
           ],
@@ -51,6 +54,16 @@ export default function ProtectedRoutes() {
       path: "/dashboard",
       element: <LayoutMain />,
       children: routes(),
+    },
+    {
+      path: "/final",
+      element: <LayoutMain />,
+      children: [
+        {
+          index: true,
+          element: <FinalSubmitOrder />,
+        },
+      ],
     },
     {
       path: "/login",
