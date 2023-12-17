@@ -15,7 +15,7 @@ const RequstServer = () => {
   const Put = async (url, data, query) => {
     return await new Promise(async (resolve, reject) => {
       await axios
-        .put(url, { data, params: query })
+        .put(url, data, { params: query })
         .then((res) => {
           resolve(res);
         })
@@ -24,10 +24,10 @@ const RequstServer = () => {
         });
     });
   };
-  const Delete = async (url, data, query) => {
+  const Delete = async (url, data) => {
     return await new Promise(async (resolve, reject) => {
       await axios
-        .delete(url, { data: data, params: query })
+        .delete(url, { data: data })
         .then((res) => {
           resolve(res);
         })
@@ -36,10 +36,10 @@ const RequstServer = () => {
         });
     });
   };
-  const PostData = (url, data, query) => {
+  const PostData = (url, data, query, header) => {
     return new Promise(async (resolve, reject) => {
       await axios
-        .post(url, data, { params: query })
+        .post(url, data, { params: query, headers: header })
         .then((res) => {
           resolve(res);
         })
